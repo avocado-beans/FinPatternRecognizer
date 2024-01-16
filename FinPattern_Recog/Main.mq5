@@ -12,20 +12,12 @@ Propagator prop2;
 input int window = 100;
 int rawnd = 0;
 
-double OpenData[];
-double HighData[];
-double LowData[];
-double CloseData[];
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit()
   {
    Print("*---[STARTED]---*");
-   ArrayResize(OpenData, window);
-   ArrayResize(HighData, window);
-   ArrayResize(LowData, window);
-   ArrayResize(CloseData, window);
 
    return(INIT_SUCCEEDED);
   }
@@ -50,59 +42,8 @@ void OnTick()
    if(timestamp != time)
      {
       timestamp = time;
-      MqlTradeRequest request;
-      MqlTradeResult result;
 
       // Generate moving average window
-
-
-      // Parse OHLC data
-      for(int i=0; i<24; i++)
-        {
-         OpenData[i] = iOpen(_Symbol, _Period, i);
-         HighData[i] = iHigh(_Symbol, _Period, i);
-         LowData[i] = iLow(_Symbol, _Period, i);
-         CloseData[i] = iClose(_Symbol, _Period, i);
-        }
-
-      ArraySetAsSeries(OpenData, true);
-      ArraySetAsSeries(HighData, true);
-      ArraySetAsSeries(LowData, true);
-      ArraySetAsSeries(CloseData, true);
-
-      double data[];
-      for(int i=0; i<8; i++)
-        {
-         ArrayResize(data, ArraySize(data)+1);
-         double rand_int = MathRand();
-         rand_int /= 100000;
-         data[ArraySize(data)-1] = -1*i*i*i*5+rand_int;;
-         if(i==0)
-           {
-           }
-        }
-      for(int i=0; i<8; i++)
-        {
-         ArrayResize(data, ArraySize(data)+1);
-         double rand_int = MathRand();
-         rand_int /= 100000;
-         data[ArraySize(data)-1] = 2*i*i*i+8*i*i+35+rand_int;
-         if(i==0)
-           {
-           }
-        }
-
-      for(int i=0; i<8; i++)
-        {
-         ArrayResize(data, ArraySize(data)+1);
-         double rand_int = MathRand();
-         rand_int /= 100000;
-         data[ArraySize(data)-1] = i*i+i*2+rand_int;
-         if(i==0)
-           {
-           }
-        }
-
       static int MA = iMA(_Symbol, PERIOD_CURRENT, 20, 0, MODE_SMA, PRICE_CLOSE);
       double MAArray[];
       int total_journey = 1000;
